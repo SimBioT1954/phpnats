@@ -1,4 +1,5 @@
 <?php
+
 namespace Nats;
 
 use Nats\Encoders\Encoder;
@@ -16,7 +17,7 @@ class EncodedConnection extends Connection
      *
      * @var \Nats\Encoders\Encoder|null
      */
-    private $encoder = null;
+    private $encoder;
 
 
     /**
@@ -25,7 +26,7 @@ class EncodedConnection extends Connection
      * @param ConnectionOptions           $options Connection options object.
      * @param \Nats\Encoders\Encoder|null $encoder Encoder to use with the payload.
      */
-    public function __construct(ConnectionOptions $options = null, Encoder $encoder = null)
+    public function __construct (ConnectionOptions $options = null, Encoder $encoder = null)
     {
         $this->encoder = $encoder;
         parent::__construct($options);
@@ -34,13 +35,13 @@ class EncodedConnection extends Connection
     /**
      * Request does a request and executes a callback with the response.
      *
-     * @param string   $subject  Message topic.
-     * @param string   $payload  Message data.
+     * @param string   $subject Message topic.
+     * @param string   $payload Message data.
      * @param \Closure $callback Closure to be executed as callback.
      *
      * @return void
      */
-    public function request($subject, $payload, \Closure $callback)
+    public function request ($subject, $payload, \Closure $callback)
     {
         $payload = $this->encoder->encode($payload);
         parent::request($subject, $payload, $callback);
@@ -51,11 +52,11 @@ class EncodedConnection extends Connection
      *
      * @param string $subject Message topic.
      * @param string $payload Message data.
-     * @param string $inbox   Message inbox.
+     * @param string $inbox Message inbox.
      *
      * @return void
      */
-    public function publish($subject, $payload = null, $inbox = null)
+    public function publish ($subject, $payload = null, $inbox = null)
     {
         $payload = $this->encoder->encode($payload);
         parent::publish($subject, $payload, $inbox);
@@ -64,12 +65,12 @@ class EncodedConnection extends Connection
     /**
      * Subscribes to an specific event given a subject.
      *
-     * @param string   $subject  Message topic.
+     * @param string   $subject Message topic.
      * @param \Closure $callback Closure to be executed as callback.
      *
      * @return string
      */
-    public function subscribe($subject, \Closure $callback)
+    public function subscribe ($subject, \Closure $callback)
     {
         $c = function ($message) use ($callback) {
             $message->setBody($this->encoder->decode($message->getBody()));
@@ -81,13 +82,13 @@ class EncodedConnection extends Connection
     /**
      * Subscribes to an specific event given a subject and a queue.
      *
-     * @param string   $subject  Message topic.
-     * @param string   $queue    Queue name.
+     * @param string   $subject Message topic.
+     * @param string   $queue Queue name.
      * @param \Closure $callback Closure to be executed as callback.
      *
      * @return void
      */
-    public function queueSubscribe($subject, $queue, \Closure $callback)
+    public function queueSubscribe ($subject, $queue, \Closure $callback)
     {
         $c = function ($message) use ($callback) {
             $message->setBody($this->encoder->decode($message->getBody()));

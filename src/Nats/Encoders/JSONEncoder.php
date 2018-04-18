@@ -1,4 +1,5 @@
 <?php
+
 namespace Nats\Encoders;
 
 /**
@@ -19,7 +20,7 @@ class JSONEncoder implements Encoder
      *
      * @return mixed
      */
-    public function encode($payload)
+    public function encode ($payload)
     {
         $payload = json_encode($payload);
         return $payload;
@@ -32,7 +33,7 @@ class JSONEncoder implements Encoder
      *
      * @return mixed
      */
-    public function decode($payload)
+    public function decode ($payload)
     {
         $payload = json_decode($payload, true);
         return $payload;
