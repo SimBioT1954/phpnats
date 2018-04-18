@@ -1,4 +1,5 @@
 <?php
+
 namespace Nats;
 
 /**
@@ -9,7 +10,6 @@ namespace Nats;
 class Php71RandomGenerator
 {
 
-
     /**
      * A simple wrapper on random_bytes.
      *
@@ -17,7 +17,7 @@ class Php71RandomGenerator
      *
      * @return string Random string.
      */
-    public function generateString($len)
+    public function generateString ($len)
     {
         return bin2hex(random_bytes($len));
     }

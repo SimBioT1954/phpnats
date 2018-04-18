@@ -1,4 +1,5 @@
 <?php
+
 namespace Nats;
 
 /**
@@ -17,7 +18,7 @@ class Exception extends \Exception
      *
      * @return \Nats\Exception
      */
-    public static function forFailedConnection($response)
+    public static function forFailedConnection ($response)
     {
         return new static(sprintf('Failed to connect: %s', $response));
     }
@@ -30,7 +31,7 @@ class Exception extends \Exception
      *
      * @return \Nats\Exception
      */
-    public static function forFailedPing($response)
+    public static function forFailedPing ($response)
     {
         return new static(sprintf('Failed to ping: %s', $response));
     }
@@ -43,7 +44,7 @@ class Exception extends \Exception
      *
      * @return \Nats\Exception
      */
-    public static function forSubscriptionNotFound($subscription)
+    public static function forSubscriptionNotFound ($subscription)
     {
         return new static(sprintf('Subscription not found: %s', $subscription));
     }
@@ -56,7 +57,7 @@ class Exception extends \Exception
      *
      * @return \Nats\Exception
      */
-    public static function forSubscriptionCallbackInvalid($subscription)
+    public static function forSubscriptionCallbackInvalid ($subscription)
     {
         return new static(sprintf('Subscription callback is invalid: %s', $subscription));
     }
@@ -66,11 +67,11 @@ class Exception extends \Exception
      * Creates an Exception for the failed creation of a Stream Socket Client.
      *
      * @param string  $message The system level error message.
-     * @param integer $code    The system level error code.
+     * @param integer $code The system level error code.
      *
      * @return \Nats\Exception
      */
-    public static function forStreamSocketClientError($message, $code)
+    public static function forStreamSocketClientError ($message, $code)
     {
         return new static(sprintf('A Stream Socket Client could not be created: (%d) %s', $code, $message), $code);
     }
