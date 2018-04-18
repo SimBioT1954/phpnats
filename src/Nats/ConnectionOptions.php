@@ -1,4 +1,5 @@
 <?php
+
 namespace Nats;
 
 use Traversable;
@@ -30,21 +31,21 @@ class ConnectionOptions
      *
      * @var string
      */
-    private $user = null;
+    private $user;
 
     /**
      * Password to connect.
      *
      * @var string
      */
-    private $pass = null;
+    private $pass;
 
     /**
      * Token to connect.
      *
      * @var string
      */
-    private $token = null;
+    private $token;
 
     /**
      * Language of this client.
@@ -87,17 +88,17 @@ class ConnectionOptions
      * @var array
      */
     private $configurable = [
-                             'host',
-                             'port',
-                             'user',
-                             'pass',
-                             'token',
-                             'lang',
-                             'version',
-                             'verbose',
-                             'pedantic',
-                             'reconnect',
-                            ];
+        'host',
+        'port',
+        'user',
+        'pass',
+        'token',
+        'lang',
+        'version',
+        'verbose',
+        'pedantic',
+        'reconnect',
+    ];
 
 
     /**
@@ -118,10 +119,38 @@ class ConnectionOptions
      *
      * @param Traversable|array $options The connection options.
      */
-    public function __construct($options = null)
+    public function __construct ($options = null)
     {
         if (empty($options) === false) {
             $this->initialize($options);
+        }
+    }
+
+    /**
+     * Initialize the parameters.
+     *
+     * @param Traversable|array $options The connection options.
+     *
+     * @throws Exception When $options are an invalid type.
+     *
+     * @return void
+     */
+    protected function initialize ($options)
+    {
+        if (\is_array($options) === false && ($options instanceof Traversable) === false) {
+            throw new Exception('The $options argument must be either an array or Traversable');
+        }
+
+        foreach ($options as $key => $value) {
+            if (\in_array($key, $this->configurable, true) === false) {
+                continue;
+            }
+
+            $method = 'set' . ucfirst($key);
+
+            if (method_exists($this, $method) === true) {
+                $this->$method($value);
+            }
         }
     }
 
@@ -130,51 +159,48 @@ class ConnectionOptions
      *
      * @return string
      */
-    public function getAddress()
+    public function getAddress ()
     {
-        return 'tcp://'.$this->host.':'.$this->port;
+        return 'tcp://' . $this->host . ':' . $this->port;
     }
-
 
     /**
      * Get the options JSON string.
      *
      * @return string
      */
-    public function __toString()
+    public function __toString ()
     {
         $a = [
-              'lang'     => $this->lang,
-              'version'  => $this->version,
-              'verbose'  => $this->verbose,
-              'pedantic' => $this->pedantic,
-             ];
-        if (empty($this->user) === false) {
+            'lang'     => $this->lang,
+            'version'  => $this->version,
+            'verbose'  => $this->verbose,
+            'pedantic' => $this->pedantic,
+        ];
+        if (!empty($this->user)) {
             $a['user'] = $this->user;
         }
 
-        if (empty($this->pass) === false) {
+        if (!empty($this->pass)) {
             $a['pass'] = $this->pass;
         }
 
-        if (empty($this->token) === false) {
+        if (!empty($this->token)) {
             $a['auth_token'] = $this->token;
         }
 
         return json_encode($a);
     }
 
-
     /**
      * Get host.
      *
      * @return string
      */
-    public function getHost()
+    public function getHost ()
     {
         return $this->host;
     }
-
 
     /**
      * Set host.
@@ -183,24 +209,22 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setHost($host)
+    public function setHost ($host)
     {
         $this->host = $host;
 
         return $this;
     }
 
-
     /**
      * Get port.
      *
      * @return integer
      */
-    public function getPort()
+    public function getPort ()
     {
         return $this->port;
     }
-
 
     /**
      * Set port.
@@ -209,24 +233,22 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setPort($port)
+    public function setPort ($port)
     {
         $this->port = $port;
 
         return $this;
     }
 
-
     /**
      * Get user.
      *
      * @return string
      */
-    public function getUser()
+    public function getUser ()
     {
         return $this->user;
     }
-
 
     /**
      * Set user.
@@ -235,20 +257,19 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setUser($user)
+    public function setUser ($user)
     {
         $this->user = $user;
 
         return $this;
     }
 
-
     /**
      * Get password.
      *
      * @return string
      */
-    public function getPass()
+    public function getPass ()
     {
         return $this->pass;
     }
@@ -260,7 +281,7 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setPass($pass)
+    public function setPass ($pass)
     {
         $this->pass = $pass;
 
@@ -272,7 +293,7 @@ class ConnectionOptions
      *
      * @return string
      */
-    public function getToken()
+    public function getToken ()
     {
         return $this->token;
     }
@@ -284,7 +305,7 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setToken($token)
+    public function setToken ($token)
     {
         $this->token = $token;
 
@@ -296,11 +317,10 @@ class ConnectionOptions
      *
      * @return string
      */
-    public function getLang()
+    public function getLang ()
     {
         return $this->lang;
     }
-
 
     /**
      * Set language.
@@ -309,24 +329,22 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setLang($lang)
+    public function setLang ($lang)
     {
         $this->lang = $lang;
 
         return $this;
     }
 
-
     /**
      * Get version.
      *
      * @return string
      */
-    public function getVersion()
+    public function getVersion ()
     {
         return $this->version;
     }
-
 
     /**
      * Set version.
@@ -335,24 +353,22 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setVersion($version)
+    public function setVersion ($version)
     {
         $this->version = $version;
 
         return $this;
     }
 
-
     /**
      * Get verbose.
      *
      * @return boolean
      */
-    public function isVerbose()
+    public function isVerbose ()
     {
         return $this->verbose;
     }
-
 
     /**
      * Set verbose.
@@ -361,24 +377,22 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setVerbose($verbose)
+    public function setVerbose ($verbose)
     {
         $this->verbose = $verbose;
 
         return $this;
     }
 
-
     /**
      * Get pedantic.
      *
      * @return boolean
      */
-    public function isPedantic()
+    public function isPedantic ()
     {
         return $this->pedantic;
     }
-
 
     /**
      * Set pedantic.
@@ -387,24 +401,22 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setPedantic($pedantic)
+    public function setPedantic ($pedantic)
     {
         $this->pedantic = $pedantic;
 
         return $this;
     }
 
-
     /**
      * Get reconnect.
      *
      * @return boolean
      */
-    public function isReconnect()
+    public function isReconnect ()
     {
         return $this->reconnect;
     }
-
 
     /**
      * Set reconnect.
@@ -413,7 +425,7 @@ class ConnectionOptions
      *
      * @return $this
      */
-    public function setReconnect($reconnect)
+    public function setReconnect ($reconnect)
     {
         $this->reconnect = $reconnect;
 
@@ -427,36 +439,8 @@ class ConnectionOptions
      *
      * @return void
      */
-    public function setConnectionOptions($options)
+    public function setConnectionOptions ($options)
     {
         $this->initialize($options);
-    }
-
-    /**
-     * Initialize the parameters.
-     *
-     * @param Traversable|array $options The connection options.
-     *
-     * @throws Exception When $options are an invalid type.
-     *
-     * @return void
-     */
-    protected function initialize($options)
-    {
-        if (is_array($options) === false && ($options instanceof Traversable) === false) {
-            throw new Exception('The $options argument must be either an array or Traversable');
-        }
-
-        foreach ($options as $key => $value) {
-            if (in_array($key, $this->configurable, true) === false) {
-                continue;
-            }
-
-            $method = 'set'.ucfirst($key);
-
-            if (method_exists($this, $method) === true) {
-                $this->$method($value);
-            }
-        }
     }
 }

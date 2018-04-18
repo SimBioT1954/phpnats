@@ -1,4 +1,5 @@
 <?php
+
 namespace Nats;
 
 /**
@@ -92,10 +93,10 @@ class ServerInfo
      *
      * @param string $connectionResponse Connection response Message.
      */
-    public function __construct($connectionResponse)
+    public function __construct ($connectionResponse)
     {
         $parts = explode(' ', $connectionResponse);
-        $data  = json_decode($parts[1], true);
+        $data = json_decode($parts[1], true);
 
         $this->setServerID($data['server_id']);
         $this->setHost($data['host']);
@@ -103,7 +104,7 @@ class ServerInfo
         $this->setVersion($data['version']);
         $this->setGoVersion($data['go']);
         $this->setAuthRequired($data['auth_required']);
-        $this->setSSLRequired($data['ssl_required']);
+        $this->setSSLRequired($data['ssl_required'] ?? false);
         $this->setTLSRequired($data['tls_required']);
         $this->setTLSVerify($data['tls_verify']);
         $this->setMaxPayload($data['max_payload']);
@@ -114,7 +115,7 @@ class ServerInfo
      *
      * @return string Server ID.
      */
-    public function getServerID()
+    public function getServerID ()
     {
         return $this->serverID;
     }
@@ -126,7 +127,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setServerID($serverID)
+    public function setServerID ($serverID)
     {
         $this->serverID = $serverID;
     }
@@ -136,7 +137,7 @@ class ServerInfo
      *
      * @return string Server host.
      */
-    public function getHost()
+    public function getHost ()
     {
         return $this->host;
     }
@@ -148,7 +149,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setHost($host)
+    public function setHost ($host)
     {
         $this->host = $host;
     }
@@ -158,7 +159,7 @@ class ServerInfo
      *
      * @return integer Server port number.
      */
-    public function getPort()
+    public function getPort ()
     {
         return $this->port;
     }
@@ -170,7 +171,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setPort($port)
+    public function setPort ($port)
     {
         $this->port = $port;
     }
@@ -180,7 +181,7 @@ class ServerInfo
      *
      * @return string Server version number.
      */
-    public function getVersion()
+    public function getVersion ()
     {
         return $this->version;
     }
@@ -192,7 +193,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setVersion($version)
+    public function setVersion ($version)
     {
         $this->version = $version;
     }
@@ -202,7 +203,7 @@ class ServerInfo
      *
      * @return string Go version number.
      */
-    public function getGoVersion()
+    public function getGoVersion ()
     {
         return $this->goVersion;
     }
@@ -214,7 +215,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setGoVersion($goVersion)
+    public function setGoVersion ($goVersion)
     {
         $this->goVersion = $goVersion;
     }
@@ -224,7 +225,7 @@ class ServerInfo
      *
      * @return boolean If auth is required.
      */
-    public function isAuthRequired()
+    public function isAuthRequired ()
     {
         return $this->authRequired;
     }
@@ -236,7 +237,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setAuthRequired($authRequired)
+    public function setAuthRequired ($authRequired)
     {
         $this->authRequired = $authRequired;
     }
@@ -246,7 +247,7 @@ class ServerInfo
      *
      * @return boolean If TLS is required.
      */
-    public function isTLSRequired()
+    public function isTLSRequired ()
     {
         return $this->TLSRequired;
     }
@@ -258,7 +259,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setTLSRequired($TLSRequired)
+    public function setTLSRequired ($TLSRequired)
     {
         $this->TLSRequired = $TLSRequired;
     }
@@ -268,7 +269,7 @@ class ServerInfo
      *
      * @return boolean If TLS certificate is verified.
      */
-    public function isTLSVerify()
+    public function isTLSVerify ()
     {
         return $this->TLSVerify;
     }
@@ -280,7 +281,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setTLSVerify($TLSVerify)
+    public function setTLSVerify ($TLSVerify)
     {
         $this->TLSVerify = $TLSVerify;
     }
@@ -290,7 +291,7 @@ class ServerInfo
      *
      * @return boolean If SSL is required.
      */
-    public function isSSLRequired()
+    public function isSSLRequired ()
     {
         return $this->SSLRequired;
     }
@@ -302,7 +303,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setSSLRequired($SSLRequired)
+    public function setSSLRequired ($SSLRequired)
     {
         $this->SSLRequired = $SSLRequired;
     }
@@ -312,7 +313,7 @@ class ServerInfo
      *
      * @return integer Size in bytes.
      */
-    public function getMaxPayload()
+    public function getMaxPayload ()
     {
         return $this->maxPayload;
     }
@@ -324,7 +325,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setMaxPayload($maxPayload)
+    public function setMaxPayload ($maxPayload)
     {
         $this->maxPayload = $maxPayload;
     }
@@ -334,7 +335,7 @@ class ServerInfo
      *
      * @return array List of server connection urls.
      */
-    public function getConnectURLs()
+    public function getConnectURLs ()
     {
         return $this->connectURLs;
     }
@@ -346,7 +347,7 @@ class ServerInfo
      *
      * @return void
      */
-    public function setConnectURLs(array $connectURLs)
+    public function setConnectURLs (array $connectURLs)
     {
         $this->connectURLs = $connectURLs;
     }
