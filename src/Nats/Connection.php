@@ -2,8 +2,6 @@
 
 namespace Nats;
 
-use RandomLib\Generator;
-
 /**
  * Connection Class.
  *
@@ -71,7 +69,7 @@ class Connection
     /**
      * Generator object.
      *
-     * @var Generator|Php71RandomGenerator
+     * @var Php71RandomGenerator
      */
     private $randomGenerator;
     /**
@@ -435,12 +433,10 @@ class Connection
      */
     public function close ()
     {
-        if ($this->streamSocket === null) {
-            return;
+        if ($this->streamSocket !== null) {
+            fclose($this->streamSocket);
+            $this->streamSocket = null;
         }
-
-        fclose($this->streamSocket);
-        $this->streamSocket = null;
     }
 
     /**
@@ -532,7 +528,7 @@ class Connection
         $fp = stream_socket_client($address, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT);
         restore_error_handler();
 
-        if ($fp === false) {
+        if (!$fp) {
             throw Exception::forStreamSocketClientError($errstr, $errno);
         }
 
